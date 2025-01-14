@@ -128,7 +128,7 @@ Esta é uma API para o gerenciamento de tarefas que implementa operações de CR
 **DELETE** `/tasks/:id`
 
 **Resposta**:
-```json
+```
 Status: 200, Ok 
 ```
 
