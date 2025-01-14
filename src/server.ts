@@ -1,22 +1,12 @@
 import express, { Request, Response } from 'express'
 import { ENV } from '../env.config.ts'
 import { randomUUID } from 'node:crypto'
-import { taskController } from './controllers/taskController.ts'
+import { taskController, taskControllerPatch } from './controllers/taskController.ts'
 import { knex } from './database/database.ts'
-// import { requestHandler } from './database/database.ts'
 
-type Task = {
-    id: string,
-    task_name: string,
-    status: string,
-    create_at: Date,
-}
-
-const db: Task[] = []
 
 const server = express()
 server.use(express.json())
-// server.use(requestHandler)
 
 
 server.get('/tasks', async(req, res) => {
@@ -40,14 +30,32 @@ server.post('/tasks', async(req, res) => {
     res.status(201).send(result)
 })
 
-server.delete('/tasks/:id', (req, res) => {
-    const task = db.findIndex((task) => {
-        return task.id == req.params.id
+server.delete('/tasks/:id', async(req, res) => {
+    try {
+        const { id } = req.params
+        await knex('task_manager').where('id', '=', id).delete()
+        res.status(200).send()
+    } catch (error) {
+        console.log(error)
+        res.status(404).send()
+    }
+})
+
+server.patch('/tasks/:id', async(req, res) => {
+    const { id } = req.params
+
+    const { task_name, status } = req.body
+    const result = taskControllerPatch({
+        task_name,
+        status,
+    })
+    
+    await knex('task_manager').where('id', '=', id).update({
+        task_name: result.task_name,
+        status: result.status,
     })
 
-    delete db[task]
-
-    res.status(404).send()
+    res.status(200).send()
 })
 
 server.listen(ENV.PORT , () => console.log(`Server running in ${ENV.PORT}`))

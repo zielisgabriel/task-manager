@@ -10,3 +10,12 @@ export function taskController(task: any) {
 
     return params.parse(task)
 }
+
+export function taskControllerPatch(task: any){
+    const params = z.object({
+        task_name: z.string().optional(),
+        status: z.string().optional()
+    })
+
+    return params.parse(task)
+}
