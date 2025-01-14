@@ -81,7 +81,7 @@ Esta é uma API para o gerenciamento de tarefas que implementa operações de CR
 **Resposta**:
 ```json
 {
-  "id": (uuid code),
+  "id": "(uuid code)",
   "task_name": "Estudar Node.js"
   "status": "open",
   "created_at": "2025-01-14T12:00:00.000Z"
@@ -95,7 +95,7 @@ Esta é uma API para o gerenciamento de tarefas que implementa operações de CR
 ```json
 [
     {
-      "id": (uuid code),
+      "id": "(uuid code)",
       "task_name": "Estudar Node.js"
       "status": "open",
       "created_at": "2025-01-14T12:00:00.000Z"
